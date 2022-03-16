@@ -1,0 +1,35 @@
+from selenium import webdriver
+import time
+import math
+
+
+try:
+    def calc(x):
+        return str(math.log(abs(12*math.sin(int(x)))))
+
+    browser = webdriver.Chrome()
+    link = "http://suninjuly.github.io/redirect_accept.html"
+    browser.get(link)
+    
+    button = browser.find_element_by_css_selector("button.btn")
+    button.click()
+    
+    new_window = browser.window_handles[1]
+    browser.switch_to.window(new_window)
+    
+    x_element = browser.find_element_by_css_selector("#input_value")
+    x = x_element.text
+    y = calc(x)
+    
+    input = browser.find_element_by_css_selector("#answer")
+    input.send_keys(y)
+    
+    button = browser.find_element_by_css_selector("button.btn")
+    button.click()
+
+finally:
+    print(browser.switch_to.alert.text)
+    # закрываем браузер после всех манипуляций
+    browser.quit()
+
+# не забываем оставить пустую строку в конце файла
